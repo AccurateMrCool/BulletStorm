@@ -1,6 +1,11 @@
 
+// Check distance to player
+var distanceToPlayer = point_distance(x, y, obj_player.x, obj_player.y);
+
 // Move enemy
-var nextX = x + move_speed * move_direction;
+var nextX = x + (sprite_width/2 + move_speed) * move_direction;
+
+
 
 // Check if hitting a wall
 if (!collision_line(x, y, nextX, y, obj_wall, false, true)) {
