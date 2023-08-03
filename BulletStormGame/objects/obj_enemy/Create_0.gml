@@ -1,3 +1,8 @@
+// Health and Damage
+max_health = 200;
+current_health = max_health;
+
+
 //Define speed and direction
 base_speed = 3;
 move_speed = base_speed;
@@ -11,9 +16,10 @@ pause_timer = 0;
 
 //FoV
 
-fov_angle = 60; // Angle of vision
+fov_angle = 160; // Angle of vision
 fov_distance = 400; // Maximum distance to spot player
 player_spotted = false;
+min_distance = 125;
 
 search_time = 200;
 search_timer = 0;

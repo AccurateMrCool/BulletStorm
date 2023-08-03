@@ -19,3 +19,12 @@ if (!place_meeting(x, y + moveY, obj_wall)) {
     // If no wall, apply the vertical movement
     y += moveY;
 }
+
+if (mouse_check_button_pressed(mb_left)){
+	bullet = instance_create_layer(x,y,"Projectiles", obj_bullet);	
+	bullet.direction = image_angle;
+	bullet.image_angle = bullet.direction;
+	bullet.speed = 10;
+}
+
+image_angle = point_direction(x, y, mouse_x, mouse_y);
