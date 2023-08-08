@@ -19,20 +19,22 @@ if (!variable_instance_exists(id, "state")) {
 
 path_to_follow = obj_waypoint_controller.paths[0];
 
-var target_x = path_to_follow[current_waypoint][0];
-var target_y = path_to_follow[current_waypoint][1];
 
 switch (state) {
     case EnemyState.PATROL: // Patrolling through waypoints
         if (canSeePlayer()) {
             state = EnemyState.CHASE;
-            move_speed = base_speed;
-        }
+			move_speed = base_speed;
+        } else {
+			target_x = path_to_follow[current_waypoint][0];
+			target_y = path_to_follow[current_waypoint][1];
+		}
         break;
 
     case EnemyState.CHASE: // Player was spotted/Pursuing player
+
         if (!canSeePlayer()) {
-            state = EnemyState.SEARCH;
+			state = EnemyState.SEARCH;
         } else {
 			move_speed = base_speed;
             target_x = obj_player.x;
@@ -77,10 +79,15 @@ if (state == EnemyState.PATROL || state == EnemyState.SEARCH) {
             current_waypoint = next_waypoint;
             pause_timer = search_timer = 0;
         }
-    }
+    } else {
+		move_speed = base_speed;
+	}
 }
+
 image_angle = point_direction(x, y, target_x, target_y);
-show_debug_message(state);
+show_debug_message("State " + string(state));
+show_debug_message("Target X: " + string(target_x) + " Y: " + string(target_y));
+show_debug_message(string(pause_timer) + " " + string(move_speed))
 
 
 

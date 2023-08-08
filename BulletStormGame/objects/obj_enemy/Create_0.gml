@@ -14,11 +14,14 @@ current_waypoint = 0;
 pause_time = 120;
 pause_timer = 0;
 
+//Waypoint
+target_x = noone;
+target_y = noone;
+
 //FoV
 
 fov_angle = 160; // Angle of vision
 fov_distance = 400; // Maximum distance to spot player
-player_spotted = false;
 min_distance = 125;
 
 search_time = 200;
