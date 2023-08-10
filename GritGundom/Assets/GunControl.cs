@@ -11,7 +11,7 @@ public class GunControl : MonoBehaviour
     public float spreadAngle = 5f;  // Angle for the bullet spread
     public float altFireSpeed = 10f;
     public float altFireRate = .33f;
-    public float altFireRicochetCount = 3;
+    public int altFireRicochetCount = 3;
     public Transform bulletSpawnPoint; // Where the bullets will be spawned
 
     private float timeSinceLastFire = 0f; // Timer to keep track of fire rate
@@ -48,6 +48,7 @@ public class GunControl : MonoBehaviour
 
         // Set the bullet's velocity in the direction the gun is facing, with added spread
         rb.velocity = bulletDirection * fireSpeed; // Adjust the speed as needed
+         Destroy(bullet, 5f);
     }
 
     void AltFireBullet()
@@ -56,9 +57,10 @@ public class GunControl : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         AltBulletBehavior altBehavior = bullet.GetComponent<AltBulletBehavior>();
         altBehavior.bulletSpeed = altFireSpeed; // Set the speed
+        altBehavior.maxRicochets = altFireRicochetCount;
 
         Vector2 bulletDirection = bulletSpawnPoint.up;
         rb.velocity = bulletDirection * altFireSpeed;
-
+        Destroy(bullet, 5f);
     }
 }

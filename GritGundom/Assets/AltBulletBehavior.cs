@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class AltBulletBehavior : MonoBehaviour
 {
+
     public float bulletSpeed;
     public float raycastDistance = 0.5f; // Distance of the raycast
-    public int maxRicochets = 3; // Number of times the bullet can ricochet
+    public int maxRicochets; // Number of times the bullet can ricochet
     private int currentRicochets = 0;
 
     private Rigidbody2D rb;
+    Vector3 lastVelocity;
 
     private void Start()
     {
@@ -18,18 +20,26 @@ public class AltBulletBehavior : MonoBehaviour
 
     private void Update()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, rb.velocity.normalized, raycastDistance);
+        //transform.rotation = Quaternion.LookRotation(rb.velocity);
+        lastVelocity = rb.velocity;
+        float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle+90);
 
-        if (hit.collider != null && hit.collider.tag != "Player")
+        Vector2 normalizedVelocity = rb.velocity.normalized; // Normalize the velocity
+        rb.velocity = normalizedVelocity * bulletSpeed;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (!other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Hit something: " + hit.collider.name); // Print the name of the object that was hit
-
+            Debug.Log("Hit something: " + other.gameObject.name); // Print the name of the object that was hit
+            
             if (currentRicochets < maxRicochets)
             {
-                Vector2 inDirection = rb.velocity.normalized;
-                Vector2 newDirection = Vector2.Reflect(inDirection, hit.normal).normalized; // Ensure it's normalized
-                rb.velocity = newDirection * bulletSpeed; // Use the original bullet speed
-
+                var speed = lastVelocity.magnitude;
+                var direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
+                rb.velocity = direction * Mathf.Max(speed, 0f);
                 currentRicochets++;
             }
             else
