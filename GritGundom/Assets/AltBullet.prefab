@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 2649763534561802987}
   - component: {fileID: 5742456113402232347}
   - component: {fileID: 260298644700456710}
-  - component: {fileID: 4178539970299537972}
+  - component: {fileID: -6406193909125854788}
   m_Layer: 7
   m_Name: AltBullet
   m_TagString: Player
@@ -234,7 +234,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4178539970299537972
+--- !u!114 &-6406193909125854788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -243,9 +243,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2319321194290849870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8920aeb164cef114d94a9b251dd826ff, type: 3}
+  m_Script: {fileID: 11500000, guid: b561c103971c6624192b303f3ea8a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 0
   raycastDistance: 0.5
-  maxRicochets: 3
+  maxRicochets: 0

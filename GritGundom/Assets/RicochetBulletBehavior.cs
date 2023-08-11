@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AltBulletBehavior : MonoBehaviour
+public class RicochetBulletBehavior : MonoBehaviour, IBulletBehavior
 {
-
-    public float bulletSpeed;
+    public float bulletSpeed { get; set; }
     public float raycastDistance = 0.5f; // Distance of the raycast
     public int maxRicochets; // Number of times the bullet can ricochet
     private int currentRicochets = 0;
@@ -20,11 +19,17 @@ public class AltBulletBehavior : MonoBehaviour
 
     private void Update()
     {
-        //transform.rotation = Quaternion.LookRotation(rb.velocity);
+        Move();
+    }
+
+    public void Move()
+    {
+        //Bullet faces right direction
         lastVelocity = rb.velocity;
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle+90);
 
+        //Maintain Constant Speed
         Vector2 normalizedVelocity = rb.velocity.normalized; // Normalize the velocity
         rb.velocity = normalizedVelocity * bulletSpeed;
     }
@@ -32,9 +37,7 @@ public class AltBulletBehavior : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (!other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Hit something: " + other.gameObject.name); // Print the name of the object that was hit
-            
+        { 
             if (currentRicochets < maxRicochets)
             {
                 var speed = lastVelocity.magnitude;
@@ -49,3 +52,4 @@ public class AltBulletBehavior : MonoBehaviour
         }
     }
 }
+

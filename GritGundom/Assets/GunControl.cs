@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GunControl : MonoBehaviour
 {
+    IGunBehavior gun1 = new SMGBehavior();
+    IGunBehavior gun2 = new RifleBehavior();
     public GameObject bulletPrefab; // Reference to the bullet prefab
     public GameObject altBulletPrefab; // Reference to the alt-fire bullet prefab
     public float fireSpeed = 10f;
@@ -27,40 +29,14 @@ public class GunControl : MonoBehaviour
 
         if (Input.GetMouseButton(0) && timeSinceLastFire > 1 / fireRate) // Check if left mouse button is clicked
         {
-            FireBullet();
+            gun1.Fire(bulletPrefab, bulletSpawnPoint, spreadAngle, fireSpeed);
             timeSinceLastFire = 0f; // Reset timer
         }
         if (Input.GetMouseButton(1) && timeSinceLastFire > 1 / altFireRate) // Check if left mouse button is clicked
         {
-            AltFireBullet();
+            gun2.Fire(bulletPrefab, bulletSpawnPoint, spreadAngle, fireSpeed);
             timeSinceLastFire = 0f; // Reset timer
         }
     }
 
-    void FireBullet()
-    {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-
-        // Add randomness to the angle
-        float randomAngle = Random.Range(-spreadAngle, spreadAngle);
-        Vector2 bulletDirection = Quaternion.Euler(0, 0, randomAngle) * bulletSpawnPoint.up;
-
-        // Set the bullet's velocity in the direction the gun is facing, with added spread
-        rb.velocity = bulletDirection * fireSpeed; // Adjust the speed as needed
-         Destroy(bullet, 5f);
-    }
-
-    void AltFireBullet()
-    {
-        GameObject bullet = Instantiate(altBulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        AltBulletBehavior altBehavior = bullet.GetComponent<AltBulletBehavior>();
-        altBehavior.bulletSpeed = altFireSpeed; // Set the speed
-        altBehavior.maxRicochets = altFireRicochetCount;
-
-        Vector2 bulletDirection = bulletSpawnPoint.up;
-        rb.velocity = bulletDirection * altFireSpeed;
-        Destroy(bullet, 5f);
-    }
 }
