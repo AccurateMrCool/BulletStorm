@@ -7,4 +7,3 @@ public interface IBulletBehavior
     float bulletSpeed { get; set; }
     void Move();
 }
-

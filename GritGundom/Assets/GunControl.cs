@@ -8,12 +8,13 @@ public class GunControl : MonoBehaviour
     IGunBehavior gun2 = new RifleBehavior();
     public GameObject bulletPrefab; // Reference to the bullet prefab
     public GameObject altBulletPrefab; // Reference to the alt-fire bullet prefab
-    public float fireSpeed = 10f;
-    public float fireRate = 1f;     // How many bullets per second
+    public float fireSpeed = 20f;
+    public float fireRate = 20f;     // How many bullets per second
     public float spreadAngle = 5f;  // Angle for the bullet spread
-    public float altFireSpeed = 10f;
-    public float altFireRate = .33f;
-    public int altFireRicochetCount = 3;
+    public float altFireSpeed = 25f;
+    public float altFireRate = 5f;
+    public float altSpreadAngle = 2.5f;
+    //public float altFireRicochetCount = 3;
     public Transform bulletSpawnPoint; // Where the bullets will be spawned
 
     private float timeSinceLastFire = 0f; // Timer to keep track of fire rate
@@ -34,7 +35,7 @@ public class GunControl : MonoBehaviour
         }
         if (Input.GetMouseButton(1) && timeSinceLastFire > 1 / altFireRate) // Check if left mouse button is clicked
         {
-            gun2.Fire(bulletPrefab, bulletSpawnPoint, spreadAngle, fireSpeed);
+            gun2.Fire(altBulletPrefab, bulletSpawnPoint, altSpreadAngle, altFireSpeed);
             timeSinceLastFire = 0f; // Reset timer
         }
     }

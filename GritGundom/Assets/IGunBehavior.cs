@@ -29,14 +29,19 @@ public class SMGBehavior : IGunBehavior
 
 public class RifleBehavior : IGunBehavior
 {
-    public void Fire(GameObject bulletPrefab, Transform BulletSpawnPoint, float spreadAngle, float fireSpeed)
+    public void Fire(GameObject bulletPrefab, Transform bulletSpawnPoint, float spreadAngle, float fireSpeed)
     {
         GameObject bullet = GameObject.Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
         IBulletBehavior bulletBehavior = bullet.GetComponent<IBulletBehavior>();
         bulletBehavior.bulletSpeed = fireSpeed; // Set the speed
-        bulletBehavior.maxRicochets = fireRicochetCount;
+        //bulletBehavior.maxRicochets = fireRicochetCount;
+        Debug.Log(bulletBehavior.bulletSpeed);
+
+        // Add randomness to the angle
+        float randomAngle = Random.Range(-spreadAngle, spreadAngle);
+        Vector2 bulletDirection = Quaternion.Euler(0, 0, randomAngle) * bulletSpawnPoint.up;
 
         rb.velocity = bulletDirection * fireSpeed;
         GameObject.Destroy(bullet, 5f);
