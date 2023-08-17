@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunControl : MonoBehaviour
+public class GunSettings : MonoBehaviour
 {
-    IGunBehavior gun1 = new SMGBehavior();
-    IGunBehavior gun2 = new RifleBehavior();
+    IGunBehavior gun;
+    public GameObject gunPrefab;
     public GameObject bulletPrefab; // Reference to the bullet prefab
-    public GameObject altBulletPrefab; // Reference to the alt-fire bullet prefab
     public float fireSpeed = 20f;
     public float fireRate = 20f;     // How many bullets per second
     public float spreadAngle = 5f;  // Angle for the bullet spread
-    public float altFireSpeed = 25f;
-    public float altFireRate = 5f;
-    public float altSpreadAngle = 2.5f;
-    //public float altFireRicochetCount = 3;
     public Transform bulletSpawnPoint; // Where the bullets will be spawned
 
     private float timeSinceLastFire = 0f; // Timer to keep track of fire rate
+
+    private void Start()
+    {
+        gun = gunPrefab.GetComponent<IGunBehavior>();
+        bulletSpawnPoint = transform.Find("BulletSpawnPoint");
+    }
 
     void Update()
     {
@@ -30,14 +31,9 @@ public class GunControl : MonoBehaviour
 
         if (Input.GetMouseButton(0) && timeSinceLastFire > 1 / fireRate) // Check if left mouse button is clicked
         {
-            gun1.Fire(bulletPrefab, bulletSpawnPoint, spreadAngle, fireSpeed);
-            timeSinceLastFire = 0f; // Reset timer
-        }
-        if (Input.GetMouseButton(1) && timeSinceLastFire > 1 / altFireRate) // Check if left mouse button is clicked
-        {
-            gun2.Fire(altBulletPrefab, bulletSpawnPoint, altSpreadAngle, altFireSpeed);
+            gun.Fire(bulletPrefab, bulletSpawnPoint, spreadAngle, fireSpeed);
+            //gun1.Update(bulletPrefab, bulletSpawnPoint, spreadAngle, fireSpeed, fireRate);
             timeSinceLastFire = 0f; // Reset timer
         }
     }
-
 }

@@ -39,7 +39,7 @@ public class RicochetBulletBehavior : MonoBehaviour, IBulletBehavior
     {
         if (!other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Hit something: " + other.gameObject.name); // Print the name of the object that was hit
+            //Debug.Log("Hit something: " + other.gameObject.name); // Print the name of the object that was hit
             
             if (currentRicochets < maxRicochets)
             {
